@@ -1,0 +1,4 @@
+- name: Work unicorn
+  sudo: yes
+  sudo_user: "{{ home_user }}"
+  command: bash -lc "bundle exec unicorn_rails -c config/unicorn.rb -E development -D"

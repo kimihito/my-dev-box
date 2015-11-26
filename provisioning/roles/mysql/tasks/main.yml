@@ -1,0 +1,26 @@
+---
+
+- name: Install mysql package from official site
+  sudo: yes
+  yum: name=http://repo.mysql.com/mysql-community-release-el6-5.noarch.rpm state=present
+
+- name: Install mysql
+  sudo: yes
+  yum: name={{ item }} state=present
+  with_items:
+    - mysql-devel
+    - mysql-server
+
+- name: Install MySQL-python
+  sudo: yes
+  yum: name={{ item }} state=present
+  with_items:
+    - MySQL-python
+
+- name: Set mysql service to start on boot
+  service: name=mysqld state=started enabled=true
+
+- name: Create MySQL database user
+  mysql_user: name=vagrant password=vagrant priv=*.*:ALL state=present
+  notify:
+    - restart mysql

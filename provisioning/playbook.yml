@@ -1,0 +1,12 @@
+---
+- hosts: all
+  sudo: yes
+  sudo_user: root
+  roles:
+    - yum-upgrade
+    - rbenv
+    - mysql
+    - nodejs
+    - setup
+    - unicorn
+    - nginx

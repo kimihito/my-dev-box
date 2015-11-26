@@ -1,0 +1,32 @@
+---
+- name: Install ImageMagick for using rmagick gem
+  yum: name={{ item }} state=present
+  with_items:
+    - ImageMagick
+    - ImageMagick-devel
+
+- name: Install packages for Nokogiri
+  yum: name={{ item }} state=present
+  with_items:
+    - gcc
+    - ruby-devel
+    - zlib-devel
+    - libxml2
+    - libxslt
+    - libxml2-devel
+    - libxslt-devel
+
+- name: Install packages for therubyracer
+  yum: name={{ item }} state=present
+  with_items:
+    - gcc-c++
+
+- name: bundle install
+  sudo: yes
+  sudo_user: "{{ home_user }}"
+  command: bash -lc "bundle install"
+
+- name: create database
+  sudo: yes
+  sudo_user: "{{ home_user }}"
+  command: bash -lc "bundle exec rake db:create RAILS_ENV=development && bundle exec rake db:migrate RAILS_ENV=development"
